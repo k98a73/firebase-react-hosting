@@ -6,6 +6,7 @@ import {
   Input,
   InputGroup,
   InputGroupAddon,
+  Table,
 } from "reactstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -18,6 +19,7 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault(); /* フォームの送信時に、ページのリロードを防ぐ */
     addTodo(value);
+    setValue("");
   };
 
   const addTodo = (text) => {
@@ -25,6 +27,12 @@ function App() {
     setTodos(newTodos);
     console.log(newTodos);
   };
+
+  const removeTodo = index => {
+    const newTodos = [...todos];
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+  }
 
   return (
     <div className="App">
@@ -44,6 +52,21 @@ function App() {
             </InputGroupAddon>
           </InputGroup>
         </Form>
+      </Container>
+      <Container>
+        <Table>
+          <tbody>
+            {todos &&
+              todos.map((todo, index) => (
+                <tr key={index}>
+                  <th className="text-start">{todo}</th>
+                  <td className="text-end">
+                    <Button color="danger" onClick={() => removeTodo(index)}>削除</Button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
       </Container>
     </div>
   );
